@@ -292,18 +292,24 @@ Physical blade arrives
 ### 7.1 Process Overview
 
 ```
-Work order received (curve geometry + stick specs)
-  → Check if mold exists for this curve
-     → YES: Retrieve mold → Layup
-     → NO: Generate CNC toolpath from parametric data
-           → CNC wax mold (expendable, 5-10 cycle life)
-           → Layup
-  → Carbon fiber layup on mold
-  → Bladder / compression molding + cure
-  → Blade-to-shaft bonding (OPS construction)
-  → Finishing (paint, graphics, grip application)
-  → QC inspection (visual — V1; dimensional validation TBD)
-  → Ship
+Custom engine (parametric definition)
+  → Custom data schema (stored in DB)
+    → STL export (blade geometry mesh)
+      → Check if mold exists for this curve
+         → YES: Retrieve wax mold
+         → NO:  Generate GCode (CNC toolpath from STL)
+                → CNC wax mold (expendable, 5-10 cycle life)
+      → CF layup on blade mold
+      → Resin application + cure
+          (method TBD — RTM / prepreg / resin infusion / wet layup;
+           shaft shell construction method also TBD — bladder common in industry)
+      → Blade-to-shaft bonding (OPS construction)
+      → Finishing (paint, graphics, grip application)
+      → QA
+          → Visual inspection against reference
+          → Flex verification, weight check (target ±10g), cosmetic
+          → Future: dimensional scan vs. parametric spec, automated pass/fail
+      → Distribution & logistics
 ```
 
 ### 7.2 Manufacturing Location
@@ -390,6 +396,8 @@ Work order received (curve geometry + stick specs)
 | 3 | Scanning hardware and method selection | Romain | TBD |
 | 4 | Number of control points needed for faithful curve reproduction | Engineering | Requires R&D |
 | 5 | Blade flex/energy transfer quality at target price point | Engineering | Requires prototyping |
+| 5b | CF construction method selection: RTM vs prepreg vs resin infusion vs wet layup — cost, quality, MOQ tradeoffs | Engineering | Requires R&D |
+| 5c | Shaft shell construction: bladder molding vs other methods — industry standard but needs validation for OPS | Engineering | Requires R&D |
 | 6 | Automated parametric extraction accuracy from 3D scans | Engineering | Requires R&D |
 | 7 | IP considerations — can pro stock curve geometries be freely reproduced? | Legal | Not started |
 | 8 | VAT handling for EU + NA sales | Finance | Not started |
